@@ -52,11 +52,14 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Ripple_Mask_Speed: 1
+    - _Ripple_Strength: 1
     - _Ripple_Tile: 5
     - _Speed: 16
     - _Tiling: 2
-    - _smoothness: 0.666
+    - _smoothness: 0
     m_Colors:
+    - _Ripple_2_OffSet: {r: 0.25, g: 0.25, b: 0, a: 0}
     - _Tint: {r: 0.09211465, g: 0.12800759, b: 0.4339623, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
