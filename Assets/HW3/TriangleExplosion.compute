@@ -1,0 +1,36 @@
+#pragma kernel CSMain
+
+struct TriangleData
+{
+    float4 offsetLife; // xyz = offset, w = lifetime
+    float4 velocityAge; // xyz = velocity, w = age
+    float4 accelActive; // xyz = acceleration, w = active
+};
+
+RWStructuredBuffer<TriangleData> _TriangleData;
+
+int _TriangleCount;
+float _DeltaTime;
+
+[numthreads(64, 1, 1)]
+void CSMain(uint id : SV_DispatchThreadID)
+{
+    if ((int) id >= _TriangleCount)
+        return;
+
+    TriangleData data = _TriangleData[id];
+
+    if (data.accelActive.w < 0.5f)
+        return;
+
+    data.velocityAge.xyz += data.accelActive.xyz * _DeltaTime;
+    data.offsetLife.xyz += data.velocityAge.xyz * _DeltaTime;
+    data.velocityAge.w += _DeltaTime;
+
+    if (data.velocityAge.w >= data.offsetLife.w)
+    {
+        data.accelActive.w = 0.0f;
+    }
+
+    _TriangleData[id] = data;
+}
